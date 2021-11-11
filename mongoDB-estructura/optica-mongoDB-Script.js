@@ -9,7 +9,7 @@ use('ITAcademy');
 
 db.employee.drop();
 db.client.drop();
-db.glassesSupplieer.drop();
+db.glassesSupplier.drop();
 db.sale.drop();
 db.glasses.drop()
 
@@ -59,7 +59,7 @@ db.glasses.insertOne({
     glassesSupplier_Id: "9874516574321"
 })
 
-db.glassesSupplieer.insertOne({
+db.glassesSupplier.insertOne({
     _id: "9874516574321",
     name: "Atlantic Eyewear SRL",
     address: {
