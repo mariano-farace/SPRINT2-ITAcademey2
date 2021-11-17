@@ -246,8 +246,6 @@ SELECT
 	LEFT JOIN producto p  
 	ON p.codigo_fabricante = f.codigo 
 
-
-
 --35 Devuelve un listado en el que sólo aparezcan aquellos fabricantes que no tienen ningún producto asociado.
 
 SELECT 
@@ -256,7 +254,6 @@ SELECT
 	LEFT JOIN producto p  
 	ON p.codigo_fabricante = f.codigo
 	WHERE p.nombre IS NULL 
-
 
 --36 Devuelve todos los productos del fabricante Lenovo. (Sin utilizar INNER JOIN).
 SELECT 
@@ -267,8 +264,6 @@ SELECT
 	ON p.codigo_fabricante = f.codigo
 	WHERE f.nombre = "Lenovo" 
 
-
-
 --37 Devuelve todos los datos de los productos que tienen el mismo precio que el producto más caro del fabricante Lenovo. (Sin utilizar INNER JOIN).
 
 SELECT *
@@ -277,9 +272,7 @@ SELECT *
 					FROM producto
 					WHERE codigo_fabricante = 2)
 
-
 --38 Lista el nombre del producto más caro del fabricante Lenovo. 
-
 
 SELECT 
 	p.nombre AS producto_nombre
@@ -289,8 +282,6 @@ SELECT
 	WHERE f.nombre = "Lenovo"
 	ORDER BY precio
     LIMIT 1
-
-
 
 --39 Lista el nombre del producto más barato del fabricante Hewlett-Packard.
 
@@ -302,7 +293,6 @@ SELECT
 	WHERE f.nombre = "Hewlett-Packard"
 	ORDER BY precio DESC
     LIMIT 1
-
 
 --40 Devuelve todos los productos de la base de datos que tienen un precio mayor o igual al producto más caro del fabricante Lenovo.
 
@@ -316,8 +306,6 @@ SELECT
 					FROM producto, fabricante f
 					WHERE f.nombre = "Lenovo")
 
-
-
 --41 Lista todos los productos del fabricante Asus que tienen un precio superior al precio medio de todos sus productos.
 
 SELECT
@@ -329,5 +317,4 @@ SELECT
 	WHERE f.nombre = "Asus" AND precio >= (SELECT AVG(precio)
 						FROM producto
 						WHERE codigo_fabricante = 1)
-
 
