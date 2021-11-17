@@ -7,7 +7,8 @@ SELECT nombre FROM tienda
 SELECT nombre, precio FROM producto;
 
 --3 Lista todas las columnas de la tabla producto.
-//TODO
+
+SELECT * FROM producto;
 
 --4 Lista el nombre de los productos, el precio en euros y el precio en dólares estadounidenses (USD).
  SELECT 
@@ -55,7 +56,6 @@ SELECT
  FROM producto;
 
 --11 Lista el código de los fabricantes que tienen productos en la mesa producto.
---//TODO mirar este, no creo que este bien
 SELECT codigo_fabricante
 FROM fabricante
 INNER JOIN producto 
@@ -91,7 +91,7 @@ SELECT * FROM fabricante LIMIT 5
 --17 Devuelve una lista con 2 filas a partir de la cuarta fila de la mesa fabricante. La cuarta fila también debe incluirse en la respuesta.
 SELECT * FROM fabricante LIMIT 4,2
 
---18 Lista el nombre y precio del producto más barato. (Utilice solo las cláusulas ORDER BY y LIMIT). NOTA: Aquí no podría usar MIN(precio), necesitaría GROUP BY //TODO ver que te esta pidiendo con group by
+--18 Lista el nombre y precio del producto más barato. (Utilice solo las cláusulas ORDER BY y LIMIT). NOTA: Aquí no podría usar MIN(precio), necesitaría GROUP BY 
 SELECT nombre, precio FROM producto
 	ORDER BY precio
     LIMIT 1
@@ -271,7 +271,12 @@ SELECT
 
 --37 Devuelve todos los datos de los productos que tienen el mismo precio que el producto más caro del fabricante Lenovo. (Sin utilizar INNER JOIN).
 
-//TODO
+SELECT *
+	FROM producto p, fabricante f
+	WHERE p.codigo_fabricante = f.codigo AND precio =  (SELECT MAX(precio)
+					FROM producto
+					WHERE codigo_fabricante = 2)
+
 
 --38 Lista el nombre del producto más caro del fabricante Lenovo. 
 
@@ -300,4 +305,29 @@ SELECT
 
 
 --40 Devuelve todos los productos de la base de datos que tienen un precio mayor o igual al producto más caro del fabricante Lenovo.
+
+SELECT
+	p.nombre AS producto_nombre,
+	precio
+	FROM fabricante f
+	LEFT JOIN producto p 
+	ON p.codigo_fabricante = f.codigo
+	WHERE precio >=  (SELECT MAX(precio)
+					FROM producto, fabricante f
+					WHERE f.nombre = "Lenovo")
+
+
+
 --41 Lista todos los productos del fabricante Asus que tienen un precio superior al precio medio de todos sus productos.
+
+SELECT
+	p.nombre AS producto_nombre,
+	precio
+	FROM fabricante f
+	LEFT JOIN producto p 
+	ON p.codigo_fabricante = f.codigo
+	WHERE f.nombre = "Asus" AND precio >= (SELECT AVG(precio)
+						FROM producto
+						WHERE codigo_fabricante = 1)
+
+
