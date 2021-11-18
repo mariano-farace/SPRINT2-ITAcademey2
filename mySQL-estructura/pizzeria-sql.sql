@@ -1,136 +1,106 @@
---//TODO referir el cliente con otra key de cliente  (siempre y cuando alguien le haya recomendado).
---//TODO ver como insertar la fecha date, verificar el tipo de data
---//TODO ver los que son ENUM!!!!
-DROP DATABASE IF EXISTS optica;
-CREATE DATABASE optica CHARACTER SET utf8mb4;
-USE optica;
-CREATE TABLE employee (
-  employee_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+DROP DATABASE IF EXISTS pizzeria;
+CREATE DATABASE pizzeria CHARACTER SET utf8mb4;
+USE pizzeria;
+CREATE TABLE city (
+  city_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
-  last_name VARCHAR(50) NOT NULL
-  
-);
-CREATE TABLE address (
-  address_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  street VARCHAR(50) NOT NULL,
-  number VARCHAR(50) NOT NULL,
-  floor VARCHAR(10),
-  door VARCHAR(10),
-  city VARCHAR(50),
-  pc VARCHAR(10),
-  country VARCHAR(50)
+  state VARCHAR(50) NOT NULL
 );
 CREATE TABLE client (
   client_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
-  address_id INT UNSIGNED NOT NULL,
-  FOREIGN KEY (address_id) REFERENCES address(address_id),
-  referred_by INT UNSIGNED,
-  FOREIGN KEY (referred_by) REFERENCES client(client_id)
+  street VARCHAR(100) NOT NULL,
+  city_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (city_id) REFERENCES city(city_id),
+  phone_number VARCHAR(50) NOT NULL
 );
-CREATE TABLE supplier (
-  supplier_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE store (
+  store_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
-  address_id INT UNSIGNED NOT NULL,
-  FOREIGN KEY (address_id) REFERENCES address(address_id),
+  street VARCHAR(100) NOT NULL,
+  postal_code VARCHAR(100) NOT NULL,
+  city_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (city_id) REFERENCES city(city_id),
+  phone_number VARCHAR(50) NOT NULL
+);
+CREATE TABLE employee (
+  employee_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  nif VARCHAR(20) NOT NULL,
   phone_number VARCHAR(50) NOT NULL,
-  fax_number VARCHAR(50),
-  nif VARCHAR(50)
+  job_type ENUM('cook', 'delivery_man') NOT NULL,
+  store_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (store_id) REFERENCES store(store_id)
 );
-CREATE TABLE glasses (
-  glasses_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  brand VARCHAR(50) NOT NULL,
-  graduation_r_lens DOUBLE NOT NULL,
-  graduation_l_lens DOUBLE NOT NULL,
-  frame_type ENUM('flotante', 'pasta', 'metalica') NOT NULL,
-  frame_color VARCHAR(50) NOT NULL,
-  lens_color VARCHAR(50) NOT NULL,
-  price INT NOT NULL,
-  stock INT NOT NULL,
-  supplier_id INT UNSIGNED NOT NULL,
-  FOREIGN KEY (supplier_id) REFERENCES supplier(supplier_id)
+CREATE TABLE product (
+  product_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  type ENUM("pizza", "burger", "drink") NOT NULL,
+  name VARCHAR(30) NOT NULL,
+  description VARCHAR(200) NOT NULL,
+  picture VARCHAR(200) NOT NULL,
+  price INT UNSIGNED NOT NULL,
+  pizza_cattegory VARCHAR(50)
 );
-CREATE TABLE sale(
-  sale_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  sale_date DATE NOT NULL,
-  sold_by INT UNSIGNED NOT NULL,
-  sold_to INT UNSIGNED NOT NULL,
-  FOREIGN KEY (sold_by) REFERENCES employee(employee_id),
-  FOREIGN KEY (sold_to) REFERENCES client(client_id)
+CREATE TABLE order_c(
+  order_c_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  order_c_date_and_time DATETIME NOT NULL,
+  store_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (store_id) REFERENCES store(store_id),
+  for_delivery BOOL NOT NULL,
+  delivery_man_id INT UNSIGNED,
+  FOREIGN KEY (delivery_man_id) REFERENCES employee(employee_id),
+  delivery_time DATETIME,
+  client_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (client_id) REFERENCES client(client_id),
+  total_price INT UNSIGNED NOT NULL
 );
-CREATE TABLE sale_item(
-  sale_item_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  glasses_id INT UNSIGNED NOT NULL,
-  FOREIGN KEY (glasses_id) REFERENCES glasses(glasses_id),
+CREATE TABLE order_c_item(
+  order_c_item_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  product_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (product_id) REFERENCES product(product_id),
   quantity INT NOT NULL,
-  sale_id INT UNSIGNED NOT NULL,
-  FOREIGN KEY (sale_id) REFERENCES sale(sale_id)
+  order_c_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (order_c_id) REFERENCES order_c(order_c_id)
 );
+-------------------------------------------------------------------------------------------------------
+
 INSERT INTO
-  address
-VALUES(
-    1,
-    'Carrer de les Carolines',
-    '25',
-    '4',
-    'A',
-    'Barcelona',
-    'A3215',
-    'España'
-  );
+  city
+VALUES(1,"Barcelona", "Catalunya");
+
+
 INSERT INTO
-  address
-VALUES(
-    2,
-    'C. Churruca',
-    '6',
-    '3',
-    null,
-    'Getafe',
-    'C8975',
-    'España'
-  );
+  client
+VALUES(1, "Marita", "Riveros", "Viladomat 96", 1, "956-8764564");
+
+INSERT INTO
+  store
+VALUES(1, "Pizzeria Fantastica", "Carrer Arago 895", "S6547", 1, "+34 9 547 12354");
+
 INSERT INTO
   employee
-VALUES(1, 'Amanda', 'Perez');
+VALUES(1, "Analia", "Nielsen", "Z654657", "65475867564", "delivery_man", 1);
+
 INSERT INTO
-  client
-VALUES(1, 'Maria', 'Hernandez', 1, NULL);
+  product
+VALUES(1, "pizza", "Fugazzeta", "Cebolla, oregano, muzzarella", "https://fugazzeta.JPG", 3500, "A la piedra");
+
 INSERT INTO
-  client
-VALUES(2, 'Ester', 'Camacho', 1, 1);
+  product
+VALUES(2, "drink", "Sprite", "Bebida refrescante sabor lima", "sprite/media/.JPG", 300, NULL);
+
 INSERT INTO
-  supplier
-VALUES
-  (
-    1,
-    'Super provedor',
-    2,
-    '+3458-674562',
-    '+3456578-674562',
-    'A79935607'
-  );
+  order_c
+VALUES(1, "2020-01-01 10:10:10", 1, 1,1,"2020-01-01 10:45:35",1,3800 );
+
+
+
 INSERT INTO
-  glasses
-VALUES
-  (
-    1,
-    'Ray Ban',
-    1.55,
-    2.8,
-    'metalica',
-    'Red',
-    'dark',
-    21354,
-    987,
-    1
-  );
+  order_c_item
+VALUES(1,1,2,1);
+
 INSERT INTO
-  sale
-VALUES
-  (1, '2021/08/21', 1, 1);
-INSERT INTO
-  sale_item
-VALUES
-  (1, 1, 3, 1);
+  order_c_item
+VALUES(2,2,5,1);
