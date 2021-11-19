@@ -130,3 +130,40 @@ INSERT INTO
   sale_item
 VALUES
   (1, 1, 3, 1);
+----Queries-------------------------------------------------
+  
+-- Lista el total de facturas de un cliente en un período determinado
+SELECT
+  SUM(g.price * si.quantity) AS total_facturas
+FROM
+  client c
+  INNER JOIN sale s ON s.sold_to = c.client_id
+  INNER JOIN sale_item si ON si.sale_id = s.sale_id
+  INNER JOIN glasses g ON g.glasses_id = si.glasses_id
+WHERE
+  c.name = "Maria"
+  AND c.last_name = "Hernandez"
+  AND s.sale_date BETWEEN "1999-01-01"
+  AND "2030-12-31" 
+  
+  -- Lista los distintos modelos de gafas que ha vendido un empleado durante un año
+  --Las gafas no tienen nombre de modelo, las caracteristicas unicas de cada gafa estan agrupadas por su id, eso es lo que voy a devolver:
+SELECT
+  DISTINCT g.glasses_id AS numero_de_modelo
+FROM
+  glasses g
+  INNER JOIN sale_item si ON g.glasses_id = si.glasses_id
+  INNER JOIN sale s ON si.sale_id = s.sale_id
+  INNER JOIN employee e ON e.employee_id = s.sold_by
+WHERE
+  e.employee_id = 1
+  AND s.sale_date BETWEEN "2021-01-01"
+  AND "2021-12-31" 
+  
+  -- Lista los distintos proveedores que han suministrado gafas vendidas con éxito por la óptica
+SELECT
+  DISTINCT s.name AS supplier_whos_products_have_been_sold
+FROM
+  supplier s
+  INNER JOIN glasses g ON g.supplier_id = s.supplier_id
+  INNER JOIN sale_item si ON g.glasses_id = si.glasses_id
