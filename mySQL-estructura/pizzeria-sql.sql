@@ -65,42 +65,98 @@ CREATE TABLE order_c_item(
   FOREIGN KEY (order_c_id) REFERENCES order_c(order_c_id)
 );
 -------------------------------------------------------------------------------------------------------
-
 INSERT INTO
   city
-VALUES(1,"Barcelona", "Catalunya");
-
-
+VALUES(1, "Barcelona", "Catalunya");
 INSERT INTO
   client
-VALUES(1, "Marita", "Riveros", "Viladomat 96", 1, "956-8764564");
-
+VALUES(
+    1,
+    "Marita",
+    "Riveros",
+    "Viladomat 96",
+    1,
+    "956-8764564"
+  );
 INSERT INTO
   store
-VALUES(1, "Pizzeria Fantastica", "Carrer Arago 895", "S6547", 1, "+34 9 547 12354");
-
+VALUES(
+    1,
+    "Pizzeria Fantastica",
+    "Carrer Arago 895",
+    "S6547",
+    1,
+    "+34 9 547 12354"
+  );
 INSERT INTO
   employee
-VALUES(1, "Analia", "Nielsen", "Z654657", "65475867564", "delivery_man", 1);
-
+VALUES(
+    1,
+    "Analia",
+    "Nielsen",
+    "Z654657",
+    "65475867564",
+    "delivery_man",
+    1
+  );
 INSERT INTO
   product
-VALUES(1, "pizza", "Fugazzeta", "Cebolla, oregano, muzzarella", "https://fugazzeta.JPG", 3500, "A la piedra");
-
+VALUES(
+    1,
+    "pizza",
+    "Fugazzeta",
+    "Cebolla, oregano, muzzarella",
+    "https://fugazzeta.JPG",
+    3500,
+    "A la piedra"
+  );
 INSERT INTO
   product
-VALUES(2, "drink", "Sprite", "Bebida refrescante sabor lima", "sprite/media/.JPG", 300, NULL);
-
+VALUES(
+    2,
+    "drink",
+    "Sprite",
+    "Bebida refrescante sabor lima",
+    "sprite/media/.JPG",
+    300,
+    NULL
+  );
 INSERT INTO
   order_c
-VALUES(1, "2020-01-01 10:10:10", 1, 1,1,"2020-01-01 10:45:35",1,3800 );
-
-
-
+VALUES(
+    1,
+    "2020-01-01 10:10:10",
+    1,
+    1,
+    1,
+    "2020-01-01 10:45:35",
+    1,
+    3800
+  );
 INSERT INTO
   order_c_item
-VALUES(1,1,2,1);
-
+VALUES(1, 1, 2, 1);
 INSERT INTO
   order_c_item
-VALUES(2,2,5,1);
+VALUES(2, 2, 5, 1);
+--Quieries-----------------------------------------------------------------------------------------------------
+  -- Lista cuántos productos de la categoría 'bebidas' se han vendido en una determinada localidad
+SELECT
+  SUM(oi.quantity) AS total_drinks_sold
+FROM
+  order_c_item oi
+  INNER JOIN product p ON oi.product_id = p.product_id
+  INNER JOIN order_c o ON oi.order_c_id = o.order_c_id
+  INNER JOIN store s ON s.store_id = o.store_id
+  INNER JOIN city c ON c.city_id = s.city_id
+WHERE
+  p.type = "drink"
+  AND c.name = "Barcelona" -- Lista cuántos pedidos ha efectuado un determinado empleado. *****No hice la DB pensando que cada pedido iba a estar asociado al empleado que lo vendiera, voy a modificar un poco la consulta y devolver elresultado de cuantos deliverys ha hecho un determinado empleado
+SELECT
+  COUNT(order_c_id)
+FROM
+  order_c o
+  INNER JOIN employee e ON e.employee_id = o.delivery_man_id
+WHERE
+  e.name = "Analia"
+  AND e.last_name = "Nielsen"
