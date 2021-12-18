@@ -8,8 +8,8 @@ use('ITAcademy');
 
 
 db.client.drop();
-db.glasses.drop();
-db.glassesSupplier.drop();
+db.glasses.drop()
+db.glassesSupplier.drop()
 
 
 
@@ -57,4 +57,3 @@ db.glassesSupplier.insertOne({
     nif: "RL987654321",
     glass_brands: ["Calvin Klein", "Carrera", "Dior", "Dolce & Gabbana"]
 })
-
