@@ -6,67 +6,60 @@ use('ITAcademy-spotify');
 
 
 // The drop() command destroys all data from a collection.
-db.song.drop(); //
-db.album.drop();
 db.artist.drop(); //
-db.playlist.drop();
 db.user.drop()
+db.playlist.drop();
 db.subscription.drop()
-
-db.song.insertMany([{
-        _id: "Money1a897512313657",
-        title: "Money For Nothing",
-        artist: "Dire87d3a1564s6d5",
-        length: 185,
-        album: "Bro65sad8f65as465sf",
-        number_of_shares: 6598771,
-    },
-
-    {
-        _id: "Sofar6sa5d4f65s6sa5",
-        title: "So Far Away",
-        artist: "Dire87d3a1564s6d5",
-        length: 185,
-        album: "Bro65sad8f65as465sf",
-        number_of_shares: 300224,
-
-    }, {
-        _id: "alright65asd4f65as47",
-        title: "It's Alright",
-        artist: "Super87d3a1564s6d5",
-        length: 123,
-        album: "Freea6s5df4d56",
-        number_of_shares: 65496,
-    }
-])
 
 db.artist.insertMany([{
     _id: "Dire87d3a1564s6d5",
     artist_name: "Dire Straits",
     artist_picture: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Dire_straits_22101985_23_800.jpg",
+    albums: [{
+        album_id: "Bro65sad8f65as465sf",
+        album_title: "Brothers in Arms",
+        release_date: ISODate("1985-09-09T06:00:00.171Z"),
+        cover_image: "https://en.wikipedia.org/wiki/Brothers_in_Arms_(album)#/media/File:DS_Brothers_in_Arms.jpg",
+        songs: [{
+            song_id: "Money1a897512313657",
+            title: "Money For Nothing",
+            artist: "Dire87d3a1564s6d5",
+            length: 185,
+            album: "Bro65sad8f65as465sf",
+            number_of_shares: 6598771,
+        },
+        {
+            song_id: "Sofar6sa5d4f65s6sa5",
+            title: "So Far Away",
+            artist: "Dire87d3a1564s6d5",
+            length: 185,
+            album: "Bro65sad8f65as465sf",
+            number_of_shares: 300224,
+    
+        }]
+    }]
 
 }, {
     _id: "Super87d3a1564s6d5",
     artist_name: "Supertramp",
     artist_picture: "https://en.wikipedia.org/wiki/Supertramp#/media/File:Supertramp1971.jpg",
-    related_artists: ["Dire87d3a1564s6d5"]
-}])
-
-db.album.insertMany([{
-    _id: "Freea6s5df4d56",
-    album_title: "Free as a Bird",
-    song_list: ["alright65asd4f65as47"],
-    artist_id: "Super87d3a1564s6d5",
-    release_date: ISODate("1987-09-09T06:00:00.171Z"),
-    cover_image: "https://en.wikipedia.org/wiki/File:Supertramp_-_Free_As_a_Bird.jpg"
-
-}, {
-    _id: "Bro65sad8f65as465sf",
-    album_title: "Brothers in Arms",
-    song_list: ["Money1a897512313657", "Sofar6sa5d4f65s6sa5"],
-    artist_id: "Dire87d3a1564s6d5",
-    release_date: ISODate("1985-09-09T06:00:00.171Z"),
-    cover_image: "https://en.wikipedia.org/wiki/Brothers_in_Arms_(album)#/media/File:DS_Brothers_in_Arms.jpg"
+    related_artists: ["Dire87d3a1564s6d5"],
+    albums:[{
+        album_id: "Freea6s5df4d56",
+        album_title: "Free as a Bird",
+        song_list: ["alright65asd4f65as47"],
+        artist_id: "Super87d3a1564s6d5",
+        release_date: ISODate("1987-09-09T06:00:00.171Z"),
+        cover_image: "https://en.wikipedia.org/wiki/File:Supertramp_-_Free_As_a_Bird.jpg",
+        songs: [{
+            song_id: "alright65asd4f65as47",
+            title: "It's Alright",
+            artist: "Super87d3a1564s6d5",
+            length: 123,
+            album: "Freea6s5df4d56",
+            number_of_shares: 65496,}]
+    
+    }]
 }])
 
 db.user.insertMany([{

@@ -5,29 +5,38 @@ use('ITAcademy-Pizzeria');
 
 
 // The drop() command destroys all data from a collection.
-db.city.drop();
+
 db.store.drop();
 db.client.drop();
-db.employee.drop();
-db.product.drop()
+db.product.drop();
+db.order.drop();
 
 
-db.city.insertOne({
-    _id: "Bar65489674321",
-    name: "Barcelona",
-    state: {
-        state_id: "Cat897as8d7f5",
-        name: "Catalunya"
-    }
-})
 
 db.store.insertOne({
     _id: "Store9874sadfah4321",
     name: "Antigourmet Comidas",
     street: "C. Churruca 56",
-    pc: "118902",
-    city_id: "Bar65489674321",
     phone_number: "+34913220310",
+    pc: "118902",
+    city: {
+        city_id: "Bar65489674321",
+        name: "Barcelona",},
+    state: {
+        state_id: "Cat897as8d7f5",
+        name: "Catalunya"
+    },
+    employee:
+    {
+        _id: "Emp9875132465",
+        name: "Diego Armando",
+        last_name: "Maradona",
+        nif: "M869756Y",
+        phone_number: "+34 68754",
+        position: "delivery_man",
+        store_id: "Store9874sadfah4321"
+    
+    }
 })
 
 db.client.insertOne({
@@ -37,19 +46,16 @@ db.client.insertOne({
     street: "Pg. de Gràcia, 16, 08008 Barcelona",
     city: "Bar65489674321",
     phone_number: "+34 05468753",
+    city: {
+        city_id: "Bar65489674321",
+        name: "Barcelona",},
+    state: {
+        state_id: "Cat897as8d7f5",
+        name: "Catalunya"
+        }
 
 })
 
-db.employee.insertOne({
-    _id: "Emp9875132465",
-    name: "Diego Armando",
-    last_name: "Maradona",
-    nif: "M869756Y",
-    phone_number: "+34 68754",
-    position: "delivery_man",
-    store_id: "Store9874sadfah4321"
-
-})
 
 db.product.insertMany([{
         _id: "HWPa897512313657",

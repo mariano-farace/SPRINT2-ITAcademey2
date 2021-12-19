@@ -8,7 +8,6 @@ use('ITAcademy');
 
 
 db.client.drop();
-db.glasses.drop();
 db.glassesSupplier.drop();
 
 
@@ -34,7 +33,9 @@ db.client.insertOne({
         stock: 198,
         glassesSupplier_Id: "9874516574321"},
         employee: {
-        employee_id: "65489674321"
+        employee_id: "65489674321",
+        name: "Ariel",
+        last_name:"Gonzalez"        
     }
     })
 

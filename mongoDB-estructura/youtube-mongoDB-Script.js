@@ -57,21 +57,21 @@ db.video.insertOne({
             reaction: "dislike",
             reaction_date: ISODate("2021-10-13T06:06:09.171Z")
         }
-    ]
+    ],
+    tags:[{tag_id:"6a5sd4f654", tag_name:"4K resolution"}],
+    comments:[{
+        comment_id: "lslsk78jdf765akl",
+        comment_owner: "User2a897512313657",
+        body: "I don't like your video",
+        comment_date: ISODate("2021-10-13T06:00:00.171Z"),
+        liked_disliked_by: [{
+            user: "User1a897512313657",
+            reaction: "dislike",
+            reaction_date: ISODate("2021-10-13T06:00:00.171Z")
+        }]
+    }]
 })
 
-db.comment.insertOne({
-    comment_owner: "User2a897512313657",
-    body: "I don't like your video",
-    comment_date: ISODate("2021-10-13T06:00:00.171Z"),
-    video_commented: "Vid65489674321",
-    liked_disliked_by: [{
-        user: "User1a897512313657",
-        reaction: "dislike",
-        reaction_date: ISODate("2021-10-13T06:00:00.171Z")
-    }, ]
-
-})
 
 db.channel.insertOne({
     user_owner: "User1a897512313657",
